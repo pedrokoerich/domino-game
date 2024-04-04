@@ -14,7 +14,11 @@ export class AppComponent {
   title = 'domino-game';
   public player1: Array<[number, number]> = []; 
   public player2: Array<[number, number]> = [];
+  public peca: Array<[number, number]> = [];
   public playAreaData: Array<[number, number]> = []; 
+  public todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+  public done: Array<[number, number]> = []; 
+
   piecesInPlayArea: PiecesInPlayArea = {};
   isPieceInPlayArea = false;
 
@@ -30,25 +34,29 @@ export class AppComponent {
   }
 
 
-  movies = [
-    'Episode I - The Phantom Menace',
-    'Episode II - Attack of the Clones',
-    'Episode III - Revenge of the Sith',
-    'Episode IV - A New Hope',
-    'Episode V - The Empire Strikes Back',
-    'Episode VI - Return of the Jedi',
-    'Episode VII - The Force Awakens',
-    'Episode VIII - The Last Jedi',
-    'Episode IX - The Rise of Skywalker',
-  ];
-
-  dropPlayer1(event: CdkDragDrop<string[]>) {
+  dropPlayer1(event: CdkDragDrop<Array<[number, number]>>) {
     moveItemInArray(this.player1, event.previousIndex, event.currentIndex);
   }
 
-  dropPLayer2(event: CdkDragDrop<string[]>) {
+  dropPlayer2(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.player2, event.previousIndex, event.currentIndex);
   }
+
+  drop(event: CdkDragDrop<Array<[number, number]>>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(this.done, event.previousIndex, event.currentIndex);
+    } else {
+      const droppedPiece = event.previousContainer.data[event.previousIndex];
+      this.done.splice(event.currentIndex, 0, droppedPiece);
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+  }
+  
 
   // Função para distribuir as peças entre os jogadores e as restantes para compra
   distributePieces(allPieces: Array<[number, number]>, numPieces: number): { player1: Array<[number, number]>, player2: Array<[number, number]>, buy: Array<[number, number]> } {
@@ -65,7 +73,22 @@ export class AppComponent {
   onPieceDropped(event: CdkDragDrop<[number, number][]>) {
     const droppedElement = event.event.target as HTMLElement;
     const droppedElementId = droppedElement.id;
-    if (droppedElementId && droppedElementId == 'play-area') {
+
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+
+
+
+
+/*     if (droppedElementId && droppedElementId == 'play-area') {
       this.isPieceInPlayArea = true;
       const pieceIndex = this.player1.indexOf(event.item.data);
       if (pieceIndex !== -1) {
@@ -80,8 +103,10 @@ export class AppComponent {
       this.piecesInPlayArea['position_' + Object.keys(this.piecesInPlayArea).length] = event.item.data;
     } else {
       this.isPieceInPlayArea = false;
+
+     
       // Lógica para lidar com a solta em outras áreas, se necessário
-    }
+    } */
     console.log(this.piecesInPlayArea)
   }
 
