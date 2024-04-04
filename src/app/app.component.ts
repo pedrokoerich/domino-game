@@ -29,6 +29,27 @@ export class AppComponent {
     return pieces;
   }
 
+
+  movies = [
+    'Episode I - The Phantom Menace',
+    'Episode II - Attack of the Clones',
+    'Episode III - Revenge of the Sith',
+    'Episode IV - A New Hope',
+    'Episode V - The Empire Strikes Back',
+    'Episode VI - Return of the Jedi',
+    'Episode VII - The Force Awakens',
+    'Episode VIII - The Last Jedi',
+    'Episode IX - The Rise of Skywalker',
+  ];
+
+  dropPlayer1(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.player1, event.previousIndex, event.currentIndex);
+  }
+
+  dropPLayer2(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.player2, event.previousIndex, event.currentIndex);
+  }
+
   // Função para distribuir as peças entre os jogadores e as restantes para compra
   distributePieces(allPieces: Array<[number, number]>, numPieces: number): { player1: Array<[number, number]>, player2: Array<[number, number]>, buy: Array<[number, number]> } {
     const shuffledPieces = allPieces.sort(() => Math.random() - 0.5);
@@ -41,10 +62,9 @@ export class AppComponent {
   }
   
 
-  onPieceDropped(event: CdkDragDrop<[number, number][]>): void {
+  onPieceDropped(event: CdkDragDrop<[number, number][]>) {
     const droppedElement = event.event.target as HTMLElement;
     const droppedElementId = droppedElement.id;
-    
     if (droppedElementId && droppedElementId == 'play-area') {
       this.isPieceInPlayArea = true;
       const pieceIndex = this.player1.indexOf(event.item.data);
@@ -56,6 +76,7 @@ export class AppComponent {
           this.player2.splice(pieceIndex, 1); // Remover a peça do jogador 2
         }
       }
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.piecesInPlayArea['position_' + Object.keys(this.piecesInPlayArea).length] = event.item.data;
     } else {
       this.isPieceInPlayArea = false;
