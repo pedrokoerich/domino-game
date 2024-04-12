@@ -1,27 +1,54 @@
-# DominoGame
+# 🀄️ Jogo de Dominó 🀄️
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.2.
+## Descrição
 
-## Development server
+O Jogo de Dominó é uma aplicação desenvolvida para simular partidas de dominó de forma virtual. Com uma interface intuitiva e recursos robustos, os usuários podem desfrutar de uma experiência autêntica de dominó enquanto jogam online.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tecnologias Utilizadas
 
-## Code scaffolding
+- 🅰️ **Angular:** Utilizado para desenvolver a interface do usuário, proporcionando uma experiência interativa e dinâmica.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- 🎮 **Angular CDK Drag and Drop:** Utilizado para implementar a funcionalidade de arrastar e soltar, permitindo aos jogadores movimentarem as peças de dominó na área de jogo.
 
-## Build
+## Funcionalidades Principais
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Arrastar e Soltar:**
+  - Os jogadores podem arrastar e soltar as peças de dominó na área de jogo para fazer suas jogadas.
 
-## Running unit tests
+- **Validação de Jogadas:**
+  - O jogo valida se uma jogada é legal antes de permitir que o jogador a execute.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- **Conexão de Peças:**
+  - As peças de dominó só podem ser conectadas se tiverem lados correspondentes.
 
-## Running end-to-end tests
+## Como Usar
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. **Clone o Repositório:** Clone este repositório para o seu ambiente local.
+    ```
+    git clone https://github.com/pedrokoerich/domino-game.git
+    ```
 
-## Further help
+2. **Instale as Dependências:**
+    ```
+    cd domino-game
+    npm install
+    ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+3. **Execute o Jogo:**
+    ```
+    ng serve --open
+    ```
+
+4. **Comece a Jogar:**
+   - Abra o jogo em um navegador e comece a jogar dominó online!
+
+## Contribuição
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir problemas (issues) e enviar solicitações de alteração (pull requests) para melhorar o jogo.
+
+## Contato
+
+Se precisar de ajuda ou tiver alguma dúvida, não hesite em entrar em contato:
+
+- [Pedro Henrique Koerich](https://github.com/pedrokoerich) 📧 
+- [LinkedIn](https://www.linkedin.com/in/pedro-henrique-koerich/)
