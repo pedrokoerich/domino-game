@@ -49,22 +49,81 @@ export class AppComponent implements OnInit {
 
     return { player1, player2, buy };
   }
-
   drop(event: CdkDragDrop<Array<[number, number]>>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       const droppedPiece = event.previousContainer.data[event.previousIndex];
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      const targetPiece = event.container.data[event.currentIndex];
+  
+      const droppedLeftSide = droppedPiece[0];
+      const droppedRightSide = droppedPiece[1];
+  
+      // Verifica se a peça de destino não é undefined
+      if (targetPiece) {
+        const targetLeftSide = targetPiece[0];
+        const targetRightSide = targetPiece[1];
+  
+        if (droppedRightSide === targetLeftSide) {
+          // Conectar peças com lados iguais
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex
+          );
+        } else if (droppedLeftSide === targetRightSide) {
+          // Se necessário, gira a peça solta
+          const rotatedPiece: [number, number] = [droppedRightSide, droppedLeftSide];
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex
+          );
+          event.container.data[event.currentIndex] = rotatedPiece;
+        } else {
+          // Se os lados não corresponderem, não permite a conexão
+          console.log("Os lados das peças não correspondem. A conexão não é permitida.");
+        }
+      } else {
+        // Verifica se a mesa está vazia antes de realizar a verificação
+        if (this.done.length === 0) {
+          // Se a mesa estiver vazia, permite colocar a peça na mesa
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex
+          );
+        } else {
+          // Se a mesa não estiver vazia, verifique se a peça pode ser colocada na mesa
+          let canPlacePiece = false;
+          for (const piece of this.done) {
+            const leftSide = piece[0];
+            const rightSide = piece[1];
+            if (droppedLeftSide === leftSide || droppedRightSide === rightSide) {
+              canPlacePiece = true;
+              break;
+            }
+          }
+  
+          if (canPlacePiece) {
+            transferArrayItem(
+              event.previousContainer.data,
+              event.container.data,
+              event.previousIndex,
+              event.currentIndex
+            );
+          } else {
+            console.log("Não é possível colocar essa peça na mesa.");
+          }
+        }
+      }
     }
   }
   
-  
+
 
   dropPlayer1(event: CdkDragDrop<Array<[number, number]>>) {
     moveItemInArray(this.player1, event.previousIndex, event.currentIndex);
