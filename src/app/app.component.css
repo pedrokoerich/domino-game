@@ -75,6 +75,33 @@ footer {
   cursor: pointer;
 }
 
+.horizontal {
+  transform: rotate(90deg); /* Rotaciona a peça em 90 graus para torná-la horizontal */
+  margin: 16px;
+}
+
+.buy-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.buy-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
 .top-number,
 .bottom-number {
   height: 49%; /* Altura da área de números inferior */
@@ -89,8 +116,8 @@ footer {
   width: 100%;
   height: 1px;
   background-color: #000;
-  margin: 2px 0; /* Espaçamento entre as áreas de números */
-  flex-grow: -1; /* Para empurrar a linha divisória para o centro */
+  margin: 2px 0; 
+  flex-grow: -1; 
 }
 
 .dot {
@@ -98,7 +125,7 @@ footer {
   height: 12px;
   border-radius: 50%;
   background-color: #000;
-  margin: 4px; /* Espaçamento entre as bolinhas */
+  margin: 4px; 
 }
 
 .cdk-drag-preview {
@@ -123,53 +150,5 @@ footer {
 
 .opponent-pieces.cdk-drop-list-dragging .domino-piece:not(.cdk-drag-placeholder),
 .my-pieces.cdk-drop-list-dragging .domino-piece:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-/* Adicionei para teste */
-.example-container {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 25px 25px 0;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.example-list {
-  border: solid 1px #ccc;
-  min-height: 60px;
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
-  display: flex;
-  width: 100%;
-  height: 100px;
-  padding: 5px;
-  background-color: #888;
-  align-items: center;
-  justify-content: center;
-}
-
-.example-box {
-  padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
-  color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  background: white;
-  font-size: 14px;
-  width: 70px;
-  height: 100px;
-  border: 1px solid #000;
-  box-sizing: border-box;
-  border-radius: 5px;
-  margin: 0 5px;
-  cursor: pointer;
-}
-
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

@@ -13,57 +13,57 @@
   <div class="game-area">
     <!-- Área das peças do oponente -->
     <div cdkDropList [cdkDropListData]="player1" class="opponent-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]">
-      <div class="domino-piece" *ngFor="let piece of player1" cdkDrag [cdkDragData]="piece">
+      <div class="domino-piece" *ngFor="let item of player1" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)">
         <div class="top-number">
-          <ng-container *ngFor="let dot of [].constructor(piece[0])">
+          <ng-container *ngFor="let dot of [].constructor(item.piece[0])">
             <div class="dot"></div>
           </ng-container>
         </div>
         <div class="divider"></div>
         <div class="bottom-number">
-          <ng-container *ngFor="let dot of [].constructor(piece[1])">
+          <ng-container *ngFor="let dot of [].constructor(item.piece[1])">
             <div class="dot"></div>
           </ng-container>
         </div>
       </div>
     </div>
 
-<!-- Área de jogo (onde as peças serão colocadas) -->
-<div cdkDropList class="play-area" (cdkDropListDropped)="drop($event)" [cdkDropListData]="done" #doneList="cdkDropList">
-  <div class="domino-piece" *ngFor="let piece of done" cdkDrag [cdkDragData]="piece">
-    <div class="top-number">
-      <ng-container *ngFor="let dot of [].constructor(piece[0])">
-        <div class="dot"></div>
-      </ng-container>
+    <!-- Área de jogo (onde as peças serão colocadas) -->
+    <div cdkDropList class="play-area" (cdkDropListDropped)="drop($event)" [cdkDropListData]="done" #doneList="cdkDropList" style="position: relative;">
+      <div class="domino-piece" [id]="'piece_' + i" *ngFor="let item of done; let i = index" cdkDrag [cdkDragData]="item.piece" [ngClass]="{'horizontal': item.horizontal}" (cdkDragStarted)="dragStarted($event)">
+        <div class="top-number">
+          <ng-container *ngFor="let dot of [].constructor(item.piece[0])">
+            <div class="dot"></div>
+          </ng-container>
+        </div>
+        <div class="divider"></div>
+        <div class="bottom-number">
+          <ng-container *ngFor="let dot of [].constructor(item.piece[1])">
+            <div class="dot"></div>
+          </ng-container>
+        </div>
+      </div>
+      <button class="buy-button" style="position: absolute; bottom: 0; right: 0;">Comprar Peça</button>
     </div>
-    <div class="divider"></div>
-    <div class="bottom-number">
-      <ng-container *ngFor="let dot of [].constructor(piece[1])">
-        <div class="dot"></div>
-      </ng-container>
-    </div>
-  </div>
-</div>
-
     
 
     <!-- Área das peças do jogador -->
-    <div cdkDropList [cdkDropListData]="player2" class="my-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]" >
-      <div class="domino-piece" *ngFor="let piece of player2" cdkDrag [cdkDragData]="piece">
+    <div cdkDropList [cdkDropListData]="player2" class="my-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]">
+      <div class="domino-piece" *ngFor="let item of player2" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)">
         <div class="top-number">
-          <ng-container *ngFor="let dot of [].constructor(piece[0])">
+          <ng-container *ngFor="let dot of [].constructor(item.piece[0])">
             <div class="dot"></div>
           </ng-container>
         </div>
         <div class="divider"></div>
         <div class="bottom-number">
-          <ng-container *ngFor="let dot of [].constructor(piece[1])">
+          <ng-container *ngFor="let dot of [].constructor(item.piece[1])">
             <div class="dot"></div>
           </ng-container>
         </div>
       </div>
     </div>
-  </div>
+  </div>  
   <footer>
     <!-- PLACAR -->
   </footer>
