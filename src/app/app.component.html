@@ -30,7 +30,7 @@
 
     <!-- Área de jogo (onde as peças serão colocadas) -->
     <div cdkDropList class="play-area" (cdkDropListDropped)="drop($event)" [cdkDropListData]="done" #doneList="cdkDropList" style="position: relative;">
-      <div class="domino-piece" [id]="'piece_' + i" *ngFor="let item of done; let i = index" cdkDrag [cdkDragData]="item.piece" [ngClass]="{'horizontal': item.horizontal}" (cdkDragStarted)="dragStarted($event)">
+      <div class="domino-piece" [id]="'piece_' + i" *ngFor="let item of done; let i = index" cdkDrag [cdkDragData]="item.piece" [ngClass]="{'horizontal': item.horizontal}" (cdkDragStarted)="dragStarted($event)" [cdkDragDisabled]="true" >
         <div class="top-number">
           <ng-container *ngFor="let dot of [].constructor(item.piece[0])">
             <div class="dot"></div>
@@ -43,7 +43,8 @@
           </ng-container>
         </div>
       </div>
-      <button class="buy-button" style="position: absolute; bottom: 0; right: 0;">Comprar Peça</button>
+      <button class="buy-button" style="position: absolute; bottom: 0; right: 0;" (click)="comprarPeca()">Comprar Peça</button>
+
     </div>
     
 

@@ -76,7 +76,7 @@ footer {
 }
 
 .horizontal {
-  transform: rotate(90deg); /* Rotaciona a peça em 90 graus para torná-la horizontal */
+  transform: rotate(-90deg); /* Rotaciona a peça em 90 graus para torná-la horizontal */
   margin: 16px;
 }
 

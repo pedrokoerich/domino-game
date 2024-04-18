@@ -43,12 +43,44 @@ export class AppComponent implements OnInit {
 
   distributePieces(allPieces: [number, number][], numPieces: number): { player1: DominoPiece[], player2: DominoPiece[], buy: [number, number][] } {
     const shuffledPieces = allPieces.sort(() => Math.random() - 0.5);
-    const player1 = shuffledPieces.slice(0, numPieces).map(piece => ({ piece, horizontal: false }));
-    const player2 = shuffledPieces.slice(numPieces, numPieces * 2).map(piece => ({ piece, horizontal: false }));
-    const buy = shuffledPieces.slice(numPieces * 2);
+    const player1: DominoPiece[] = [];
+    const player2: DominoPiece[] = [];
+    const buy: [number, number][] = [];
+
+    const player1Counts = new Map<number, number>();
+    const player2Counts = new Map<number, number>();
+
+    for (const piece of shuffledPieces) {
+        const [left, right] = piece;
+
+        // Verifica se algum jogador já possui mais de 5 peças com o mesmo número
+        if ((player1Counts.get(left) ?? 0) >= 5 || (player1Counts.get(right) ?? 0) >= 5) {
+            buy.push(piece);
+        } else if ((player2Counts.get(left) ?? 0) >= 5 || (player2Counts.get(right) ?? 0) >= 5) {
+            buy.push(piece);
+        } else {
+            // Distribui a peça para o jogador 1 se ele ainda não atingiu o limite
+            if (player1.length < numPieces) {
+                player1.push({ piece, horizontal: false });
+                player1Counts.set(left, (player1Counts.get(left) ?? 0) + 1);
+                player1Counts.set(right, (player1Counts.get(right) ?? 0) + 1);
+            } 
+            // Distribui a peça para o jogador 2 se ele ainda não atingiu o limite
+            else if (player2.length < numPieces) {
+                player2.push({ piece, horizontal: false });
+                player2Counts.set(left, (player2Counts.get(left) ?? 0) + 1);
+                player2Counts.set(right, (player2Counts.get(right) ?? 0) + 1);
+            } 
+            // Adiciona a peça à pilha de compra caso ambos os jogadores já tenham atingido o limite
+            else {
+                buy.push(piece);
+            }
+        }
+    }
 
     return { player1, player2, buy };
-  }
+}
+
 
   drop(event: CdkDragDrop<DominoPiece[]>) {
     const droppedItem = event.previousContainer.data[event.previousIndex];
@@ -148,6 +180,17 @@ export class AppComponent implements OnInit {
     }
     this.draggedPieceIndex = null;
   }
+
+  comprarPeca() {
+    if (this.playAreaData.length > 0) {
+      console.log("TESTE")
+      const proximaPeca = this.playAreaData.shift(); // Remove e retorna o próximo elemento da variável 'buy'
+      if (proximaPeca) {
+        this.player2.push({ piece: proximaPeca, horizontal: false }); // Adiciona a peça ao jogador 2
+      }
+    }
+  }
+  
 
   dragStarted(event: CdkDragStart) {
     const draggedPieceId = event.source.element.nativeElement.id;
