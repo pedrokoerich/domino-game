@@ -75,10 +75,6 @@ footer {
   cursor: pointer;
 }
 
-.horizontal {
-  transform: rotate(-90deg); /* Rotaciona a peça em 90 graus para torná-la horizontal */
-  margin: 16px;
-}
 
 .buy-button {
   background-color: #4CAF50;
