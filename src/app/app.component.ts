@@ -3,8 +3,8 @@ import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@
 
 interface DominoPiece {
   piece: [number, number];
-  horizontal: boolean;
   rotation: number; // Propriedade para controlar a rotação das peças
+  margin: number
 }
 
 
@@ -63,13 +63,13 @@ export class AppComponent implements OnInit {
         } else {
             // Distribui a peça para o jogador 1 se ele ainda não atingiu o limite
             if (player1.length < numPieces) {
-              player1.push({ piece, horizontal: false, rotation: 0 });
+              player1.push({ piece,  rotation: 0, margin: 8});
               player1Counts.set(left, (player1Counts.get(left) ?? 0) + 1);
               player1Counts.set(right, (player1Counts.get(right) ?? 0) + 1);
             } 
             // Distribui a peça para o jogador 2 se ele ainda não atingiu o limite
             else if (player2.length < numPieces) {
-              player2.push({ piece, horizontal: false, rotation: 0 });
+              player2.push({ piece,  rotation: 0, margin: 8 });
               player2Counts.set(left, (player2Counts.get(left) ?? 0) + 1);
               player2Counts.set(right, (player2Counts.get(right) ?? 0) + 1);
             } 
@@ -81,148 +81,88 @@ export class AppComponent implements OnInit {
     }
 
     return { player1, player2, buy };
-}
-
-
-drop(event: CdkDragDrop<DominoPiece[]>) {
-  const targetIndex = event.currentIndex;
-  const droppedItem = event.previousContainer.data[event.previousIndex];
-  const targetPiece = this.done[this.done.length - 1]; // Obtém a última peça jogada
-  const droppedLeftSide = droppedItem.piece[0];
-  const droppedRightSide = droppedItem.piece[1];
-
-  if (event.previousContainer === event.container) {
-    const needsRotation = this.canRotatePiece(droppedItem, targetPiece);
-    console.log(needsRotation)
-    if (needsRotation === true) {
-      // Atualiza a propriedade de rotação da peça para -90deg
-      droppedItem.rotation = 90;
-    } else {
-      console.log("TEM QUE ENTRAR AQUI")
-      // Caso contrário, a rotação será 0deg
-      droppedItem.rotation = -90;
-    }
-
-    moveItemInArray(event.container.data, event.previousIndex, targetIndex);
-  } else if (targetPiece) { // Verifica se há uma peça alvo
-    const targetLeftSide = targetPiece.piece[0];
-    const targetRightSide = targetPiece.piece[1];
-
-    const needsRotation = this.canRotatePiece(droppedItem, targetPiece);
-    console.log(needsRotation)
-    if (needsRotation === true) {
-      // Atualiza a propriedade de rotação da peça para -90deg
-      droppedItem.rotation = 90;
-    } else {
-      console.log("TEM QUE ENTRAR AQUI")
-      // Caso contrário, a rotação será 0deg
-      droppedItem.rotation = -90;
-    }
-
-    console.log("droppedRightSide: "+droppedRightSide) 
-    console.log("targetLeftSide: "+targetLeftSide) 
-
-    console.log("droppedLeftSide: "+droppedLeftSide) 
-    console.log("targetRightSide: "+targetRightSide) 
-
-    if (droppedRightSide === targetLeftSide) {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        targetIndex
-      );
-      droppedItem.horizontal = droppedLeftSide !== droppedRightSide;
-    } else if (droppedLeftSide === targetRightSide) {
-      const rotatedPiece: [number, number] = [droppedRightSide, droppedLeftSide];
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        targetIndex
-      );
-      event.container.data[targetIndex].piece = rotatedPiece;
-      droppedItem.horizontal = true;
-    } else if (droppedLeftSide === targetLeftSide) {
-      const attachedPiece: [number, number] = [droppedRightSide, targetRightSide];
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        targetIndex
-      );
-      event.container.data[targetIndex].piece = attachedPiece;
-      droppedItem.horizontal = true;
-    } else if (droppedRightSide === targetRightSide) {
-      const attachedPiece: [number, number] = [targetLeftSide, droppedLeftSide];
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        targetIndex
-      );
-      event.container.data[targetIndex].piece = attachedPiece;
-      droppedItem.horizontal = true;
-    } else {
-      alert("Os lados das peças não correspondem. A conexão não é permitida.");
-    }
-  } else if (this.done.length === 0) { // Verifica se a mesa está vazia
-    transferArrayItem(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      targetIndex
-    );
-    droppedItem.horizontal = droppedLeftSide !== droppedRightSide;
-  } else { // Caso contrário
-    let canPlacePiece = false;
-    const needsRotation = this.canRotatePiece(droppedItem, targetPiece);
-    console.log(needsRotation)
-    if (needsRotation === true) {
-      // Atualiza a propriedade de rotação da peça para -90deg
-      droppedItem.rotation = -90;
-    } else {
-      console.log("TEM QUE ENTRAR AQUI")
-      // Caso contrário, a rotação será 0deg
-      droppedItem.rotation = 90;
-    }
-    for (const piece of this.done) {
-      const leftSide = piece.piece[0];
-      const rightSide = piece.piece[1];
-      if (droppedLeftSide === leftSide || droppedRightSide === rightSide) {
-        canPlacePiece = true;
-        break;
-      }
-    }
-
-    if (canPlacePiece) {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        targetIndex
-      );
-      droppedItem.horizontal = droppedLeftSide !== droppedRightSide;
-    } else {
-      alert("Não é possível colocar essa peça na mesa.");
-    }
   }
 
-  if (this.draggedPieceIndex !== null && targetIndex === this.draggedPieceIndex) {
-    if (droppedItem) {
-      const droppedPiece = droppedItem.piece;
-      const droppedLeftSide = droppedPiece[0];
-      const droppedRightSide = droppedPiece[1];
 
-      if (droppedLeftSide !== droppedRightSide) {
-        droppedItem.horizontal = true;
+  drop(event: CdkDragDrop<DominoPiece[]>) {
+    const targetIndex = event.currentIndex;
+    const droppedItem = event.previousContainer.data[event.previousIndex];
+    const targetPiece = this.done.length > 0 ? this.done[0] : null; // Peça adjacente à direita
+    
+    if (targetPiece) { // Verifica se há uma peça adjacente à direita
+      const droppedLeftSide = droppedItem.piece[0];
+      const droppedRightSide = droppedItem.piece[1];
+      const targetLeftSide = targetPiece.piece[0];
+      const targetRightSide = targetPiece.piece[1];
+      
+      console.log(targetPiece) 
+      console.log(droppedItem)
+
+      // Verifica se os lados da peça jogada coincidem com os lados das peças adjacentes
+      if (droppedRightSide === targetLeftSide) { // Lado direito da peça jogada coincide com o lado esquerdo da peça adjacente
+        if (droppedLeftSide !== droppedRightSide) { // Verifica se os lados da peça jogada são diferentes
+          droppedItem.rotation = 90;
+          droppedItem.margin = 22;
+        }
+        transferArrayItem(
+          event.previousContainer.data, //mão do jogador
+          event.container.data, //mesa
+          event.previousIndex, //indice origem 
+          targetIndex //indice destino 
+        );
+      } else if (droppedLeftSide === targetRightSide && targetRightSide === targetLeftSide) { // Lado esquerdo da peça jogada coincide com o lado direito da peça adjacente
+        droppedItem.rotation = 90;
+        droppedItem.margin = 8;
+        transferArrayItem(
+          event.previousContainer.data, //mão do jogador
+          event.container.data, //mesa
+          event.previousIndex, //indice origem 
+          targetIndex //indice destino 
+        );
+      }else if ((droppedLeftSide === targetRightSide || droppedLeftSide === targetLeftSide) && droppedLeftSide === droppedRightSide) {
+        droppedItem.margin = 8;
+        transferArrayItem(
+          event.previousContainer.data, //mão do jogador
+          event.container.data, //mesa
+          event.previousIndex, //indice origem 
+          targetIndex //indice destino 
+        );
+      }else if (droppedLeftSide === targetRightSide) {
+        droppedItem.rotation = 90;
+        droppedItem.margin = 22;
+        transferArrayItem(
+          event.previousContainer.data, //mão do jogador
+          event.container.data, //mesa
+          event.previousIndex, //indice origem 
+          targetIndex //indice destino 
+        );
+      }else if (droppedLeftSide === targetLeftSide && targetLeftSide !== targetRightSide) {
+        droppedItem.rotation = 90;
+        droppedItem.margin = 22;
+        transferArrayItem(
+          event.previousContainer.data, //mão do jogador
+          event.container.data, //mesa
+          event.previousIndex, //indice origem 
+          targetIndex //indice destino 
+        );
+      } else {
+        alert("Os lados das peças não correspondem. A conexão não é permitida.");
       }
+    } else if (this.done.length === 0) { // Verifica se a mesa está vazia
+      // Deixa a peça deitada se tiver lados diferentes
+      if (droppedItem.piece[0] !== droppedItem.piece[1]) {
+        droppedItem.rotation = -90;
+      }
+  
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        targetIndex
+      );
     }
   }
-  this.draggedPieceIndex = null;
-}
-
-
+  
 
   comprarPeca() {
     // Verifica se o jogador já possui alguma peça que pode ser jogada
@@ -247,36 +187,12 @@ drop(event: CdkDragDrop<DominoPiece[]>) {
     if (!canPlayPiece && this.playAreaData.length > 0) {
       const proximaPeca = this.playAreaData.shift(); // Remove e retorna o próximo elemento da variável 'buy'
       if (proximaPeca) {
-        this.player2.push({ piece: proximaPeca, horizontal: false, rotation: 0 }); // Adiciona a peça ao jogador 2
+        this.player2.push({ piece: proximaPeca,  rotation: 0, margin: 8 }); // Adiciona a peça ao jogador 2
       }
     } else {
       alert("Você já possui uma peça que pode ser jogada. Não é necessário comprar uma nova.");
     }
   }
-
-  // Função para verificar se uma peça pode ser girada para se conectar corretamente com uma peça adjacente
-// Função para verificar se uma peça pode ser girada para se conectar corretamente com uma peça adjacente
-canRotatePiece(currentPiece: DominoPiece, adjacentPiece: DominoPiece): boolean {
-  const currentLeftSide = currentPiece.piece[0];
-  const currentRightSide = currentPiece.piece[1];
-
-  // Verifica se a peça adjacente existe e se tem lados diferentes
-  if (adjacentPiece && adjacentPiece.piece && adjacentPiece.piece[0] !== adjacentPiece.piece[1]) {
-    const adjacentLeftSide = adjacentPiece.piece[0];
-    const adjacentRightSide = adjacentPiece.piece[1];
-
-    // Verifica se os lados da peça atual correspondem aos lados da peça adjacente
-    if (currentLeftSide === adjacentLeftSide || currentRightSide === adjacentRightSide) {
-      return false; // Não precisa girar a peça
-    } else {
-      return true; // Precisa girar a peça
-    }
-  }
-
-  return false; // Retorna falso por padrão se a peça adjacente não existir ou tiver lados iguais
-}
-
-  
 
   dragStarted(event: CdkDragStart) {
     const draggedPieceId = event.source.element.nativeElement.id;
