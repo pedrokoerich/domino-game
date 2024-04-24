@@ -12,7 +12,7 @@
   <h1>Dominó Game</h1>
   <div class="game-area">
     <!-- Área das peças do oponente -->
-    <div cdkDropList [cdkDropListData]="player1" class="opponent-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]">
+    <div cdkDropList [cdkDropListData]="player1" class="opponent-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]" cdkDropListOrientation="horizontal">
       <div class="domino-piece" *ngFor="let item of player1" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)">
         <div class="top-number">
           <ng-container *ngFor="let dot of [].constructor(item.piece[0])">
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Área de jogo (onde as peças serão colocadas) -->
-    <div cdkDropList class="play-area" (cdkDropListDropped)="drop($event)" [cdkDropListData]="done" #doneList="cdkDropList" style="position: relative;" >
+    <div cdkDropList class="play-area" (cdkDropListDropped)="drop($event)" [cdkDropListData]="done" #doneList="cdkDropList" style="position: relative;" cdkDropListOrientation="horizontal" >
       <div class="domino-piece" [id]="'piece_' + i" *ngFor="let item of done; let i = index"
         cdkDrag [cdkDragData]="item.piece" [ngStyle]="{'transform': 'rotate(' + item.rotation + 'deg)', 'margin': +item.margin+ 'px'}"
         [cdkDragDisabled]="true">
@@ -52,7 +52,7 @@
     
 
     <!-- Área das peças do jogador -->
-    <div cdkDropList [cdkDropListData]="player2" class="my-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]">
+    <div cdkDropList [cdkDropListData]="player2" class="my-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]" cdkDropListOrientation="horizontal">
       <div class="domino-piece" *ngFor="let item of player2" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)">
         <div class="top-number">
           <ng-container *ngFor="let dot of [].constructor(item.piece[0])">

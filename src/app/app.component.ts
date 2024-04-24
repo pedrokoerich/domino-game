@@ -88,7 +88,11 @@ export class AppComponent implements OnInit {
     const targetIndex = event.currentIndex;
     const droppedItem = event.previousContainer.data[event.previousIndex];
     const targetPiece = this.done.length > 0 ? this.done[0] : null; // Peça adjacente à direita
+    const pieceFreeLeft = this.done && this.done.length > 0 ? this.done[0].piece : null; //peça disponivel na extremidade esquerda
+    const pieceFreeRight = this.done && this.done.length > 0 ? this.done[this.done.length - 1].piece : null; //peça disponível na extremidade direita 
     
+    console.log(pieceFreeLeft)
+    console.log(pieceFreeRight)
     if (targetPiece) { // Verifica se há uma peça adjacente à direita
       const droppedLeftSide = droppedItem.piece[0];
       const droppedRightSide = droppedItem.piece[1];
@@ -161,6 +165,8 @@ export class AppComponent implements OnInit {
         targetIndex
       );
     }
+
+    console.log(this.done)
   }
   
 
