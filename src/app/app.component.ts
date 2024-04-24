@@ -4,7 +4,8 @@ import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@
 interface DominoPiece {
   piece: [number, number];
   rotation: number; // Propriedade para controlar a rotação das peças
-  margin: number
+  margin: number;
+  orientation: string;
 }
 
 
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
   done: DominoPiece[] = [];
   horizontalPiece = false;
   draggedPieceIndex: number | null = null;
+  public message: string = '';
 
   generateDominoPieces(): [number, number][] {
     const pieces: [number, number][] = [];
@@ -63,13 +65,13 @@ export class AppComponent implements OnInit {
         } else {
             // Distribui a peça para o jogador 1 se ele ainda não atingiu o limite
             if (player1.length < numPieces) {
-              player1.push({ piece,  rotation: 0, margin: 8});
+              player1.push({ piece,  rotation: 0, margin: 8, orientation: ''});
               player1Counts.set(left, (player1Counts.get(left) ?? 0) + 1);
               player1Counts.set(right, (player1Counts.get(right) ?? 0) + 1);
             } 
             // Distribui a peça para o jogador 2 se ele ainda não atingiu o limite
             else if (player2.length < numPieces) {
-              player2.push({ piece,  rotation: 0, margin: 8 });
+              player2.push({ piece,  rotation: 0, margin: 8, orientation: ''});
               player2Counts.set(left, (player2Counts.get(left) ?? 0) + 1);
               player2Counts.set(right, (player2Counts.get(right) ?? 0) + 1);
             } 
@@ -88,74 +90,176 @@ export class AppComponent implements OnInit {
     const targetIndex = event.currentIndex;
     const droppedItem = event.previousContainer.data[event.previousIndex];
     const targetPiece = this.done.length > 0 ? this.done[0] : null; // Peça adjacente à direita
-    const pieceFreeLeft = this.done && this.done.length > 0 ? this.done[0].piece : null; //peça disponivel na extremidade esquerda
-    const pieceFreeRight = this.done && this.done.length > 0 ? this.done[this.done.length - 1].piece : null; //peça disponível na extremidade direita 
+    const pieceFreeLeft = this.done && this.done.length > 0 ? { piece: this.done[0].piece, orientation: this.done[0].orientation } : null;
+    const pieceFreeRight = this.done && this.done.length > 0 ? { piece: this.done[this.done.length-1].piece, orientation:this.done[this.done.length-1].orientation } : null;
     
+    const droppedLeftSide = droppedItem.piece[0];
+    const droppedRightSide = droppedItem.piece[1];
+
     console.log(pieceFreeLeft)
     console.log(pieceFreeRight)
-    if (targetPiece) { // Verifica se há uma peça adjacente à direita
-      const droppedLeftSide = droppedItem.piece[0];
-      const droppedRightSide = droppedItem.piece[1];
-      const targetLeftSide = targetPiece.piece[0];
-      const targetRightSide = targetPiece.piece[1];
-      
-      console.log(targetPiece) 
-      console.log(droppedItem)
 
-      // Verifica se os lados da peça jogada coincidem com os lados das peças adjacentes
-      if (droppedRightSide === targetLeftSide) { // Lado direito da peça jogada coincide com o lado esquerdo da peça adjacente
-        if (droppedLeftSide !== droppedRightSide) { // Verifica se os lados da peça jogada são diferentes
+    //se a mesa possuir peças
+    if (targetPiece) {
+      //AQUI SÃO VALIDAÇÃO DA EXTREMIDADE ESQUERDA
+      //se o lado de cima da peça jogada for igual ao lado de cima da peça que está na extremidade esquerda da mesa
+      if ((pieceFreeLeft && pieceFreeRight) && (droppedLeftSide === pieceFreeLeft.piece[0]) && (pieceFreeLeft.orientation === 'left' || pieceFreeLeft.orientation === '')) {
+        //se a peça da extremidade estiver rotacionada pra esquerda
+        if (droppedLeftSide === droppedRightSide) {
+          droppedItem.rotation = 0;
+          droppedItem.orientation = '';
+          droppedItem.margin = 4;
+        }else {
           droppedItem.rotation = 90;
-          droppedItem.margin = 22;
+          droppedItem.orientation = 'right';
+          droppedItem.margin = 15;
         }
+        let index = 0;
         transferArrayItem(
           event.previousContainer.data, //mão do jogador
           event.container.data, //mesa
           event.previousIndex, //indice origem 
-          targetIndex //indice destino 
+          index //indice destino 
         );
-      } else if (droppedLeftSide === targetRightSide && targetRightSide === targetLeftSide) { // Lado esquerdo da peça jogada coincide com o lado direito da peça adjacente
-        droppedItem.rotation = 90;
-        droppedItem.margin = 8;
+
+      }else if ((pieceFreeLeft && pieceFreeRight) && (droppedRightSide === pieceFreeLeft.piece[0]) && (pieceFreeLeft.orientation === 'left' || pieceFreeLeft.orientation === '')) {
+        if (droppedLeftSide === droppedRightSide) {
+          droppedItem.rotation = 0;
+          droppedItem.orientation = '';
+          droppedItem.margin = 4;
+        }else {
+          droppedItem.rotation = -90;
+          droppedItem.orientation = 'left';
+          droppedItem.margin = 15;
+        }
+        let index = 0;
         transferArrayItem(
           event.previousContainer.data, //mão do jogador
           event.container.data, //mesa
           event.previousIndex, //indice origem 
-          targetIndex //indice destino 
+          index //indice destino 
         );
-      }else if ((droppedLeftSide === targetRightSide || droppedLeftSide === targetLeftSide) && droppedLeftSide === droppedRightSide) {
-        droppedItem.margin = 8;
+      }else if  ((pieceFreeLeft && pieceFreeRight) && (droppedLeftSide === pieceFreeLeft.piece[1]) && (pieceFreeLeft.orientation === 'right' || pieceFreeLeft.orientation === '')) {
+        if (droppedLeftSide === droppedRightSide) {
+          droppedItem.rotation = 0;
+          droppedItem.orientation = '';
+          droppedItem.margin = 4;
+        }else {
+          droppedItem.rotation = 90;
+          droppedItem.orientation = 'right';
+          droppedItem.margin = 15;
+        
+        }
+        let index = 0;
         transferArrayItem(
           event.previousContainer.data, //mão do jogador
           event.container.data, //mesa
           event.previousIndex, //indice origem 
-          targetIndex //indice destino 
+          index //indice destino 
         );
-      }else if (droppedLeftSide === targetRightSide) {
-        droppedItem.rotation = 90;
-        droppedItem.margin = 22;
+
+      }else if  ((pieceFreeLeft && pieceFreeRight) && (droppedRightSide === pieceFreeLeft.piece[1]) && (pieceFreeLeft.orientation === 'right' || pieceFreeLeft.orientation === '')) {
+        if (droppedLeftSide === droppedRightSide) {
+          droppedItem.rotation = 0;
+          droppedItem.orientation = '';
+          droppedItem.margin = 4;
+        } else {
+          droppedItem.rotation = -90;
+          droppedItem.orientation = 'left';
+          droppedItem.margin = 15;
+        }
+        let index = 0;
         transferArrayItem(
           event.previousContainer.data, //mão do jogador
           event.container.data, //mesa
           event.previousIndex, //indice origem 
-          targetIndex //indice destino 
+          index //indice destino 
         );
-      }else if (droppedLeftSide === targetLeftSide && targetLeftSide !== targetRightSide) {
-        droppedItem.rotation = 90;
-        droppedItem.margin = 22;
+
+      //AQUI SÃO VALIDAÇÃO DA EXTREMIDADE DIREITA
+      }else if ((pieceFreeLeft && pieceFreeRight) && (droppedLeftSide === pieceFreeRight.piece[0]) && (pieceFreeRight.orientation === 'right' || pieceFreeRight.orientation === '')) {
+        if (droppedLeftSide === droppedRightSide) {
+          droppedItem.rotation = 0;
+          droppedItem.orientation = '';
+          droppedItem.margin = 4;
+        }else {
+          droppedItem.rotation = -90;
+          droppedItem.orientation = 'left';
+          droppedItem.margin = 15;
+        }
+        let index = this.done.length;
         transferArrayItem(
           event.previousContainer.data, //mão do jogador
           event.container.data, //mesa
           event.previousIndex, //indice origem 
-          targetIndex //indice destino 
+          index //indice destino 
         );
-      } else {
-        alert("Os lados das peças não correspondem. A conexão não é permitida.");
+      }else if ((pieceFreeLeft && pieceFreeRight) && (droppedRightSide === pieceFreeRight.piece[0]) && (pieceFreeRight.orientation === 'right' || pieceFreeRight.orientation === '')) {
+        if (droppedLeftSide === droppedRightSide) {
+          droppedItem.rotation = 0;
+          droppedItem.orientation = '';
+          droppedItem.margin = 4;
+        }else {
+          droppedItem.rotation = 90;
+          droppedItem.orientation = 'right';
+          droppedItem.margin = 15;
+        }
+        let index = this.done.length;
+        transferArrayItem(
+          event.previousContainer.data, //mão do jogador
+          event.container.data, //mesa
+          event.previousIndex, //indice origem 
+          index //indice destino 
+        );
+      }else if ((pieceFreeLeft && pieceFreeRight) && (droppedLeftSide === pieceFreeRight.piece[1]) && (pieceFreeRight.orientation === 'left' || pieceFreeRight.orientation === '')) {
+        if (droppedLeftSide === droppedRightSide) {
+          droppedItem.rotation = 0;
+          droppedItem.orientation = '';
+          droppedItem.margin = 4;
+        }else {
+          droppedItem.rotation = -90;
+          droppedItem.orientation = 'left';
+          droppedItem.margin = 15;
+        }
+        let index = this.done.length;
+        transferArrayItem(
+          event.previousContainer.data, //mão do jogador
+          event.container.data, //mesa
+          event.previousIndex, //indice origem 
+          index //indice destino 
+        );
+      }else if ((pieceFreeLeft && pieceFreeRight) && (droppedRightSide === pieceFreeRight.piece[1]) &&  (pieceFreeRight.orientation === 'left' || pieceFreeRight.orientation === '')) {
+        if (droppedLeftSide === droppedRightSide) {
+          droppedItem.rotation = 0;
+          droppedItem.orientation = '';
+          droppedItem.margin = 4;
+        }else {
+          droppedItem.rotation = 90;
+          droppedItem.orientation = 'right';
+          droppedItem.margin = 15;
+        }
+        let index = this.done.length;
+        transferArrayItem(
+          event.previousContainer.data, //mão do jogador
+          event.container.data, //mesa
+          event.previousIndex, //indice origem 
+          index //indice destino 
+        );
+      }else {
+        this.message = "Não é possível jogar esta peça nesta posição."
+        this.openModal();
       }
+
     } else if (this.done.length === 0) { // Verifica se a mesa está vazia
       // Deixa a peça deitada se tiver lados diferentes
       if (droppedItem.piece[0] !== droppedItem.piece[1]) {
-        droppedItem.rotation = -90;
+        droppedItem.rotation = -90; //Left
+        droppedItem.orientation = 'left';
+        droppedItem.margin = 15;
+      }else {
+        droppedItem.rotation = 0;
+        droppedItem.orientation = '';
+        droppedItem.margin = 4;
       }
   
       transferArrayItem(
@@ -165,38 +269,65 @@ export class AppComponent implements OnInit {
         targetIndex
       );
     }
-
-    console.log(this.done)
   }
   
 
   comprarPeca() {
     // Verifica se o jogador já possui alguma peça que pode ser jogada
     const isFirstMove = this.done.length === 0;
-  
+
     if (isFirstMove) {
-      alert("Você não pode comprar uma peça na primeira jogada. Jogue uma peça da sua mão primeiro.");
+      this.message = 'Você não pode comprar uma peça na primeira jogada. Jogue uma peça da sua mão primeiro.'
+      this.openModal();
       return; // Sai da função sem comprar uma peça
     }
-  
+
+    // Verifica se o jogador pode jogar alguma peça
     const canPlayPiece = this.player2.some(piece => {
       const leftSide = piece.piece[0];
       const rightSide = piece.piece[1];
-      return this.done.some(playAreaPiece => {
-        const playAreaLeftSide = playAreaPiece.piece[0];
-        const playAreaRightSide = playAreaPiece.piece[1];
-        return leftSide === playAreaLeftSide || rightSide === playAreaRightSide;
-      });
+      const pieceOrientation = piece.orientation; // Obtém a orientação da peça
+
+      // Obtém as peças das extremidades da mesa
+      const playAreaLeftPiece = this.done[0]?.piece;
+      const playAreaRightPiece = this.done[this.done.length - 1]?.piece;
+
+      // Verifica se a peça pode ser jogada na mesa com base na orientação
+      return (
+        (pieceOrientation === 'left' && (leftSide === playAreaLeftPiece[0] || rightSide === playAreaLeftPiece[0])) ||
+        (pieceOrientation === 'right' && (leftSide === playAreaRightPiece[1] || rightSide === playAreaRightPiece[1])) ||
+        (!pieceOrientation && (
+          (leftSide === playAreaLeftPiece[0] || rightSide === playAreaLeftPiece[0]) ||
+          (leftSide === playAreaRightPiece[1] || rightSide === playAreaRightPiece[1])
+        ))
+      );
     });
-  
+
     // Se o jogador não puder jogar nenhuma peça que já possui, compra uma nova peça
     if (!canPlayPiece && this.playAreaData.length > 0) {
       const proximaPeca = this.playAreaData.shift(); // Remove e retorna o próximo elemento da variável 'buy'
       if (proximaPeca) {
-        this.player2.push({ piece: proximaPeca,  rotation: 0, margin: 8 }); // Adiciona a peça ao jogador 2
+        this.player2.push({ piece: proximaPeca,  rotation: 0, margin: 8, orientation: '' }); // Adiciona a peça ao jogador 2
       }
+    } else if (canPlayPiece) {
+      this.message = "Você já possui uma peça que pode ser jogada. Não é necessário comprar uma nova.";
     } else {
-      alert("Você já possui uma peça que pode ser jogada. Não é necessário comprar uma nova.");
+      this.message = "Não há mais peças disponíveis para compra.";
+    }
+    this.openModal();
+  }
+
+  closeModal() {
+    let modal = document.getElementById("modal");
+    if (modal) {
+      modal.style.display = "none"; // Oculta o modal
+    }
+  }
+
+  openModal() {
+    let modal = document.getElementById("modal");
+    if (modal) {
+      modal.style.display = "block"; // Oculta o modal
     }
   }
 
@@ -204,4 +335,6 @@ export class AppComponent implements OnInit {
     const draggedPieceId = event.source.element.nativeElement.id;
     this.draggedPieceIndex = parseInt(draggedPieceId.split('_')[1]);
   }
+
+
 }
