@@ -38,7 +38,7 @@
               <div class="dot"></div>
             </ng-container>
           </div>
-          <div class="divider"></div>
+          <div class="divider" [ngClass]="{ 'rotate-left': item.orientation === 'left', 'rotate-right': item.orientation === 'right' }"></div>
           <div class="bottom-number">
             <ng-container *ngFor="let dot of [].constructor(item.piece[1])">
               <div class="dot"></div>

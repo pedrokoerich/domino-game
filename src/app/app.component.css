@@ -68,7 +68,6 @@ footer {
   border: 1px solid #000;
   align-items: center;
   justify-content: space-between;
-  padding: 2px;
   box-sizing: border-box;
   border-radius: 5px;
   margin: 0 5px;
@@ -106,14 +105,6 @@ footer {
   display: flex;
   flex-wrap: wrap; /* Permite que as bolinhas quebrem para a próxima linha */
   justify-content: center; /* Centraliza as bolinhas horizontalmente */
-}
-
-.divider {
-  width: 100%;
-  height: 1px;
-  background-color: #000;
-  margin: 2px 0; 
-  flex-grow: -1; 
 }
 
 .dot {
@@ -187,3 +178,36 @@ footer {
   text-decoration: none;
   cursor: pointer;
 }
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  margin: 2px 0; 
+  flex-grow: -1; 
+}
+
+.rotate-left {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-45%);
+}
+
+.rotate-right {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-45%);
+}
+
+
+/* .rotate-left .divider {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.rotate-right .divider {
+  bottom: 50%;
+  transform: translateY(50%);
+} */
+
+

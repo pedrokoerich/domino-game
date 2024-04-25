@@ -275,6 +275,10 @@ export class AppComponent implements OnInit {
   comprarPeca() {
     // Verifica se o jogador já possui alguma peça que pode ser jogada
     const isFirstMove = this.done.length === 0;
+    const pieceFreeLeft = this.done && this.done.length > 0 ? { piece: this.done[0].piece, orientation: this.done[0].orientation } : null;
+    const pieceFreeRight = this.done && this.done.length > 0 ? { piece: this.done[this.done.length-1].piece, orientation:this.done[this.done.length-1].orientation } : null;
+    let valorDisponivelLeft = 0;
+    let valorDisponivelRight = 0;
 
     if (isFirstMove) {
       this.message = 'Você não pode comprar uma peça na primeira jogada. Jogue uma peça da sua mão primeiro.'
@@ -282,39 +286,37 @@ export class AppComponent implements OnInit {
       return; // Sai da função sem comprar uma peça
     }
 
-    // Verifica se o jogador pode jogar alguma peça
-    const canPlayPiece = this.player2.some(piece => {
-      const leftSide = piece.piece[0];
-      const rightSide = piece.piece[1];
-      const pieceOrientation = piece.orientation; // Obtém a orientação da peça
+    if (pieceFreeLeft && pieceFreeLeft.orientation === 'left') {
+      valorDisponivelLeft = pieceFreeLeft.piece[0];
+    } else if (pieceFreeLeft && pieceFreeLeft.orientation === 'right') {
+      valorDisponivelLeft = pieceFreeLeft.piece[1];
+    }
 
-      // Obtém as peças das extremidades da mesa
-      const playAreaLeftPiece = this.done[0]?.piece;
-      const playAreaRightPiece = this.done[this.done.length - 1]?.piece;
+    if (pieceFreeRight && pieceFreeRight.orientation === 'left') {
+      valorDisponivelRight = pieceFreeRight.piece[0];
+    } else if (pieceFreeRight && pieceFreeRight.orientation === 'right') {
+      valorDisponivelRight = pieceFreeRight.piece[1];
+    }
 
-      // Verifica se a peça pode ser jogada na mesa com base na orientação
-      return (
-        (pieceOrientation === 'left' && (leftSide === playAreaLeftPiece[0] || rightSide === playAreaLeftPiece[0])) ||
-        (pieceOrientation === 'right' && (leftSide === playAreaRightPiece[1] || rightSide === playAreaRightPiece[1])) ||
-        (!pieceOrientation && (
-          (leftSide === playAreaLeftPiece[0] || rightSide === playAreaLeftPiece[0]) ||
-          (leftSide === playAreaRightPiece[1] || rightSide === playAreaRightPiece[1])
-        ))
-      );
+     // Verifica se existem peças possíveis para jogar
+    const hasPossiblePieces = this.player2.some(piece => {
+      const [left, right] = piece.piece;
+      return left === valorDisponivelLeft || left === valorDisponivelRight || right === valorDisponivelLeft || right === valorDisponivelRight;
     });
 
-    // Se o jogador não puder jogar nenhuma peça que já possui, compra uma nova peça
-    if (!canPlayPiece && this.playAreaData.length > 0) {
-      const proximaPeca = this.playAreaData.shift(); // Remove e retorna o próximo elemento da variável 'buy'
-      if (proximaPeca) {
-        this.player2.push({ piece: proximaPeca,  rotation: 0, margin: 8, orientation: '' }); // Adiciona a peça ao jogador 2
-      }
-    } else if (canPlayPiece) {
-      this.message = "Você já possui uma peça que pode ser jogada. Não é necessário comprar uma nova.";
+    if (hasPossiblePieces) {
+      this.message = 'Não é possível comprar uma peça. Existem peças possíveis para jogar.';
+      this.openModal();
     } else {
-      this.message = "Não há mais peças disponíveis para compra.";
+      // Compra a peça
+      const newPiece = this.playAreaData.pop();
+      if (newPiece) {
+        this.player2.push({ piece: newPiece, rotation: 0, margin: 8, orientation: '' });
+      }
     }
-    this.openModal();
+
+  
+
   }
 
   closeModal() {
