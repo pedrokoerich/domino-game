@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
   public draggedPieceIndex: number | null = null; // Índice da peça arrastada
   public message: string = ''; // Mensagem exibida no modal
   public lFim: boolean = false; // Verifica se o jogo acabou
+  public player1Score: number = 0; // Pontuação do jogador 1
+  public player2Score: number = 0; // Pontuação do jogador 2
 
   // Função para gerar todas as peças de dominó possíveis
   generateDominoPieces(): [number, number][] {
@@ -278,6 +280,12 @@ export class AppComponent implements OnInit {
       return; // Sai da função sem comprar uma peça
     }
 
+    if (this.playAreaData.length === 0) {
+      this.message = 'Não há peças disponíveis para compra.';
+      this.openModal();
+      return; // Sai da função sem comprar uma peça
+    }
+
     // Verifica o valor disponível na extremidade esquerda da mesa
     if (pieceFreeLeft && pieceFreeLeft.orientation === 'left') {
       valorDisponivelLeft = pieceFreeLeft.piece[0];
@@ -315,13 +323,14 @@ export class AppComponent implements OnInit {
     if (modal) {
       modal.style.display = "none"; // Oculta o modal
     }
-    if (this.lFim) {
-      window.location.reload();
-    }
   }
 
   openModal() {
     let modal = document.getElementById("modal");
+    let btn = document.getElementsByClassName("play-again-button")[0] as HTMLElement; // Access the specific element in the HTMLCollection
+    if (this.lFim) {
+      btn.style.display = "block"; // Set the style property of the element
+    }
     if (modal) {
       modal.style.display = "block"; // Mostra o Modal
     }
@@ -452,12 +461,47 @@ export class AppComponent implements OnInit {
   validaGanhador() {
     if (this.player2.length === 0) {
       this.message = 'Parabéns! Você venceu o jogo!';
+      this.player2Score++;
       this.lFim = true;
       this.openModal();
     } else if (this.player1.length === 0) {
       this.message = 'O computador venceu o jogo! Tente novamente.';
+      this.player1Score++;
       this.lFim = true;
       this.openModal();
+    } else if (this.playAreaData.length === 0 && this.player2.length !== 0 && this.player1.length !== 0) {
+      // Verificar se o jogo empatou
+      const pieceFreeLeft = this.done && this.done.length > 0 ? { piece: this.done[0].piece, orientation: this.done[0].orientation } : null;
+      const pieceFreeRight = this.done && this.done.length > 0 ? { piece: this.done[this.done.length-1].piece, orientation:this.done[this.done.length-1].orientation } : null;
+      let valorDisponivelLeft = 0;
+      let valorDisponivelRight = 0;
+
+      if (pieceFreeLeft && pieceFreeLeft.orientation === 'left') {
+        valorDisponivelLeft = pieceFreeLeft.piece[0];
+      } else if (pieceFreeLeft && pieceFreeLeft.orientation === 'right') {
+        valorDisponivelLeft = pieceFreeLeft.piece[1];
+      }
+
+      if (pieceFreeRight && pieceFreeRight.orientation === 'left') {
+        valorDisponivelRight = pieceFreeRight.piece[1];
+      } else if (pieceFreeRight && pieceFreeRight.orientation === 'right') {
+        valorDisponivelRight = pieceFreeRight.piece[0];
+      }
+
+      // Verificar se nenhum dos jogadores tem peças que encaixam com as peças disponíveis na esquerda e na direita
+      const noPossiblePieces = !this.player1.some(piece => {
+        const [left, right] = piece.piece;
+        return left === valorDisponivelLeft || left === valorDisponivelRight || right === valorDisponivelLeft || right === valorDisponivelRight;
+      }) && !this.player2.some(piece => {
+        const [left, right] = piece.piece;
+        return left === valorDisponivelLeft || left === valorDisponivelRight || right === valorDisponivelLeft || right === valorDisponivelRight;
+      });
+
+      if (noPossiblePieces) {
+        this.message = 'O jogo empatou! Tente novamente.';
+        this.lFim = true;
+        this.openModal();
+      }
     }
   }
 }
