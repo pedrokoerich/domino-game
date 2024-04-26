@@ -15,6 +15,7 @@ h1 {
   color: #FFF;
 }
 
+/* Área de Jogo */
 .game-area {
   display: flex;
   flex-direction: column;
@@ -27,6 +28,21 @@ h1 {
   padding: 20px;
 }
 
+/* Mesa*/
+.play-area {
+  width: 100%;
+  flex-grow: 1;
+  background-color: #555;
+  display: flex;
+  justify-content:center; /* Alinhar as peças à esquerda */
+  align-items: center;
+  overflow-x: auto; /* Sempre mostrar barra de rolagem horizontal */
+  overflow-y: hidden; /* Esconder barra de rolagem vertical */
+  height: auto;
+  padding: 0 20px; /* Adicionar espaço para evitar que as peças cheguem muito perto da borda */
+}
+
+/* Área onde as peças dos player ficam */
 .opponent-pieces,
 .my-pieces {
   width: 100%;
@@ -38,27 +54,15 @@ h1 {
   justify-content: center;
 }
 
-.play-area {
-  width: 100%;
-  flex-grow: 1; /* Para ocupar o espaço restante na div pai */
-  background-color: #555;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-  height: auto; /* Ajustar a altura automaticamente */
-}
-
-footer {
-  margin-top: 10px;
-  color: #FFF;
-}
-
+/* Estilos da Peça */
 .top-number,
 .bottom-number {
+  height: 49%; /* Altura da área de números inferior */
+  align-items: center;
+  width: 100%;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap; /* Permite que as bolinhas quebrem para a próxima linha */
+  justify-content: center; /* Centraliza as bolinhas horizontalmente */
 }
 
 .domino-piece {
@@ -74,7 +78,44 @@ footer {
   cursor: pointer;
 }
 
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #000;
+  margin: 4px; 
+}
 
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  margin: 2px 0; 
+  flex-grow: -1; 
+}
+
+.rotate-left {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-45%);
+}
+
+.rotate-right {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-45%);
+}
+
+.my-pieces .domino-piece {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1.0); /* Adiciona sombreado nas bordas */
+}
+
+.opponent-pieces .domino-piece {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1.0); /* Adiciona sombreado nas bordas */
+  background-color: rgb(226, 226, 226);
+}
+
+/* Botão de Compra */
 .buy-button {
   background-color: #4CAF50;
   border: none;
@@ -97,24 +138,7 @@ footer {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.top-number,
-.bottom-number {
-  height: 49%; /* Altura da área de números inferior */
-  align-items: center;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap; /* Permite que as bolinhas quebrem para a próxima linha */
-  justify-content: center; /* Centraliza as bolinhas horizontalmente */
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: #000;
-  margin: 4px; 
-}
-
+/* Styles DragDrop */
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
@@ -179,35 +203,31 @@ footer {
   cursor: pointer;
 }
 
-.divider {
-  width: 100%;
-  height: 1px;
-  background-color: #000;
-  margin: 2px 0; 
-  flex-grow: -1; 
+
+/* Jogar Novamente */
+.play-again-button {
+  background-color: #4CAF50; /* Cor de fundo */
+  border: none; /* Sem borda */
+  color: white; /* Cor do texto */
+  padding: 12px 24px; /* Espaçamento interno */
+  text-align: center; /* Alinhamento do texto */
+  text-decoration: none; /* Sem decoração de texto */
+  display: inline-block; /* Exibir como bloco */
+  font-size: 16px; /* Tamanho da fonte */
+  margin-top: 20px; /* Margem superior */
+  cursor: pointer; /* Cursor ao passar */
+  border-radius: 5px; /* Borda arredondada */
+  transition: background-color 0.3s ease-in-out; /* Transição suave */
 }
 
-.rotate-left {
-  position: absolute;
-  top: 45%;
-  transform: translateY(-45%);
+.play-again-button:hover {
+  background-color: #45a049; /* Cor de fundo ao passar o mouse */
 }
 
-.rotate-right {
-  position: absolute;
-  top: 45%;
-  transform: translateY(-45%);
+/* Footer */
+footer {
+  margin-top: 10px;
+  color: #FFF;
 }
-
-
-/* .rotate-left .divider {
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.rotate-right .divider {
-  bottom: 50%;
-  transform: translateY(50%);
-} */
 
 

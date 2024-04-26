@@ -13,18 +13,7 @@
     <div class="game-area">
       <!-- Área das peças do oponente -->
       <div cdkDropList [cdkDropListData]="player1" class="opponent-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]" cdkDropListOrientation="horizontal">
-        <div class="domino-piece" *ngFor="let item of player1" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)">
-          <div class="top-number">
-            <ng-container *ngFor="let dot of [].constructor(item.piece[0])">
-              <div class="dot"></div>
-            </ng-container>
-          </div>
-          <div class="divider"></div>
-          <div class="bottom-number">
-            <ng-container *ngFor="let dot of [].constructor(item.piece[1])">
-              <div class="dot"></div>
-            </ng-container>
-          </div>
+        <div class="domino-piece" *ngFor="let item of player1" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)" [cdkDragDisabled]="true">
         </div>
       </div>
 
@@ -46,7 +35,6 @@
           </div>
         </div>
         <button class="buy-button" style="position: absolute; bottom: 0; right: 0;" (click)="comprarPeca()">Comprar Peça</button>
-
       </div>
 
       <!-- Área das peças do jogador -->
@@ -70,15 +58,13 @@
       <!-- PLACAR -->
     </footer>
 
-
     <!-- Modal de Mensagens -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times; </span>
-      <p>{{this.message}}.</p>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <p>{{ this.message }}</p>
+        <button class="play-again-button" (click)="playAgain()">Jogar Novamente</button>
+      </div>
     </div>
-  </div>
-  
   </body>
-
 </html>
