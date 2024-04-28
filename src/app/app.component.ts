@@ -287,16 +287,16 @@ export class AppComponent implements OnInit {
     }
 
     // Verifica o valor disponível na extremidade esquerda da mesa
-    if (pieceFreeLeft && pieceFreeLeft.orientation === 'left') {
+    if (pieceFreeLeft && (pieceFreeLeft.orientation === 'left' || pieceFreeLeft.orientation === '')) {
       valorDisponivelLeft = pieceFreeLeft.piece[0];
-    } else if (pieceFreeLeft && pieceFreeLeft.orientation === 'right') {
+    } else if (pieceFreeLeft && (pieceFreeLeft.orientation === 'right' || pieceFreeLeft.orientation === '')) {
       valorDisponivelLeft = pieceFreeLeft.piece[1];
     }
 
     // Verifica o valor disponível na extremidade direita da mesa 
-    if (pieceFreeRight && pieceFreeRight.orientation === 'left') {
+    if (pieceFreeRight && (pieceFreeRight.orientation === 'left' || pieceFreeRight.orientation === '')) {
       valorDisponivelRight = pieceFreeRight.piece[1];
-    } else if (pieceFreeRight && pieceFreeRight.orientation === 'right') {
+    } else if (pieceFreeRight && (pieceFreeRight.orientation === 'right' || pieceFreeRight.orientation === '')) {
       valorDisponivelRight = pieceFreeRight.piece[0];
     }
 
@@ -314,6 +314,7 @@ export class AppComponent implements OnInit {
       const newPiece = this.playAreaData.pop();
       if (newPiece) {
         this.player2.push({ piece: newPiece, rotation: 0, margin: 8, orientation: '' });
+        this.validaGanhador();
       }
     }
   }
@@ -357,6 +358,9 @@ export class AppComponent implements OnInit {
   
     // Feche o modal após reiniciar o jogo
     this.closeModal();
+    let btn = document.getElementsByClassName("play-again-button")[0] as HTMLElement; // Access the specific element in the HTMLCollection
+    btn.style.display = "none"; 
+    this.lFim = false;
   }
   
   botPlay() {
@@ -489,18 +493,24 @@ export class AppComponent implements OnInit {
       }
 
       // Verificar se nenhum dos jogadores tem peças que encaixam com as peças disponíveis na esquerda e na direita
-      const noPossiblePieces = !this.player1.some(piece => {
+      const noPossiblePlayer1 = !this.player1.some(piece => {
         const [left, right] = piece.piece;
         return left === valorDisponivelLeft || left === valorDisponivelRight || right === valorDisponivelLeft || right === valorDisponivelRight;
-      }) && !this.player2.some(piece => {
+      })  
+
+      const noPossiblePlayer2 = !this.player2.some(piece => {
         const [left, right] = piece.piece;
         return left === valorDisponivelLeft || left === valorDisponivelRight || right === valorDisponivelLeft || right === valorDisponivelRight;
       });
 
-      if (noPossiblePieces) {
+      if (noPossiblePlayer1 && noPossiblePlayer2) {
         this.message = 'O jogo empatou! Tente novamente.';
         this.lFim = true;
         this.openModal();
+      }else if (!noPossiblePlayer1 && noPossiblePlayer2) {
+        this.botPlay();
+      }else if (!noPossiblePlayer2 && noPossiblePlayer1) {
+        console.log("MINHA VEZ")
       }
     }
   }

@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo de Dominó</title>
   </head>
-
   <body>
     <h1>Dominó Game</h1>
     <div class="game-area">
@@ -16,7 +15,6 @@
         <div class="domino-piece" *ngFor="let item of player1" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)" [cdkDragDisabled]="true">
         </div>
       </div>
-
       <!-- Área de jogo (onde as peças serão colocadas) -->
       <div cdkDropList class="play-area" (cdkDropListDropped)="drop($event)" [cdkDropListData]="done" #doneList="cdkDropList" style="position: relative;" cdkDropListOrientation="horizontal" >
         <div class="domino-piece" [id]="'piece_' + i" *ngFor="let item of done; let i = index"
@@ -34,9 +32,8 @@
             </ng-container>
           </div>
         </div>
-        <button class="buy-button" style="position: absolute; bottom: 0; right: 0;" (click)="comprarPeca()">Comprar Peça</button>
+        <button class="buy-button" style="position: absolute; bottom: 0; right: 0;" (click)="comprarPeca()">Comprar Peça ({{ this.playAreaData.length }})</button>
       </div>
-
       <!-- Área das peças do jogador -->
       <div cdkDropList [cdkDropListData]="player2" class="my-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]" cdkDropListOrientation="horizontal">
         <div class="domino-piece" *ngFor="let item of player2" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)">

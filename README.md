@@ -1,4 +1,4 @@
-# 🀄️ Jogo de Dominó 🀄️
+# 🀄️ Jogo de Dominó 🀄️ 
 
 ## Descrição
 
@@ -6,7 +6,7 @@ O Jogo de Dominó é uma aplicação desenvolvida para simular partidas de domin
 
 ## Tecnologias Utilizadas
 
-- 🅰️ **Angular:** Utilizado para desenvolver a interface do usuário, proporcionando uma experiência interativa e dinâmica.
+[![](https://skillicons.dev/icons?i=html,css,ts,angular)](https://skillicons.dev)
 
 - 🎮 **Angular CDK Drag and Drop:** Utilizado para implementar a funcionalidade de arrastar e soltar, permitindo aos jogadores movimentarem as peças de dominó na área de jogo.
 
@@ -20,6 +20,9 @@ O Jogo de Dominó é uma aplicação desenvolvida para simular partidas de domin
 
 - **Conexão de Peças:**
   - As peças de dominó só podem ser conectadas se tiverem lados correspondentes.
+
+- **Humano X Máquina:**
+  - Numa primeira versão, liberamos a experiência Humano X Máquina, onde a há uma IA do lado Máquina, que realiza todas as validações e operações necessárias para jogar sozinha. Ex: Peças disponíveis para jogar, Necessidade de compra, Compra de peças, etc.
 
 ## Como Usar
 
@@ -36,7 +39,7 @@ O Jogo de Dominó é uma aplicação desenvolvida para simular partidas de domin
 
 3. **Execute o Jogo:**
     ```
-    ng serve --open
+    ng serve
     ```
 
 4. **Comece a Jogar:**

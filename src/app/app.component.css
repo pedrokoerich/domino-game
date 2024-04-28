@@ -33,6 +33,7 @@ h1 {
   flex-grow: 1;
   background-color: #555;
   display: flex;
+  flex-wrap: wrap;
   justify-content:center; /* Alinhar as peças à esquerda */
   align-items: center;
   overflow-x: auto; /* Sempre mostrar barra de rolagem horizontal */
@@ -64,6 +65,14 @@ h1 {
   justify-content: center; /* Centraliza as bolinhas horizontalmente */
 }
 
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 10px; /* Espaço entre as linhas */
+}
+
+/* Estilos da Peça */
 .domino-piece {
   width: 70px;
   height: 100px;
@@ -73,7 +82,7 @@ h1 {
   justify-content: space-between;
   box-sizing: border-box;
   border-radius: 5px;
-  margin: 0 5px;
+  margin: 0 5px 5px 0; /* Espaço entre as peças */
   cursor: pointer;
 }
 
@@ -202,7 +211,6 @@ h1 {
   cursor: pointer;
 }
 
-
 /* Jogar Novamente */
 .play-again-button {
   background-color: #4CAF50; /* Cor de fundo */
@@ -229,7 +237,6 @@ footer {
   margin-top: 10px;
 }
 
-/* Estilos para o placar */
 /* Estilos para o placar */
 #placar {
   display: flex;
@@ -278,6 +285,3 @@ footer {
   margin: auto;
   text-align: center;
 }
-
-
-
