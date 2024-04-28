@@ -54,4 +54,4 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir problemas (issue
 Se precisar de ajuda ou tiver alguma dúvida, não hesite em entrar em contato:
 
 - [Pedro Henrique Koerich](https://github.com/pedrokoerich) 📧 
-- [LinkedIn](https://www.linkedin.com/in/pedro-henrique-koerich/)
+- [LinkedIn](http://linkedin.com/in/pedro-henrique-koerich-a846541b0)
