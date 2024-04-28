@@ -1,5 +1,8 @@
 # 🀄️ Jogo de Dominó 🀄️ 
 
+**Link para jogar:** [Jogo de Dominó Online](https://pedrokoerich.github.io/domino-game/)
+
+
 ## Descrição
 
 O Jogo de Dominó é uma aplicação desenvolvida para simular partidas de dominó de forma virtual. Com uma interface intuitiva e recursos robustos, os usuários podem desfrutar de uma experiência autêntica de dominó enquanto jogam online.
@@ -55,3 +58,4 @@ Se precisar de ajuda ou tiver alguma dúvida, não hesite em entrar em contato:
 
 - [Pedro Henrique Koerich](https://github.com/pedrokoerich) 📧 
 - [LinkedIn](http://linkedin.com/in/pedro-henrique-koerich-a846541b0)
+
