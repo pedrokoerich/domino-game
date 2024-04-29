@@ -19,14 +19,14 @@
     <div cdkDropList class="play-area" (cdkDropListDropped)="drop($event)" [cdkDropListData]="done" #doneList="cdkDropList" style="position: relative;" cdkDropListOrientation="horizontal">
       <div class="domino-piece" [id]="'piece_' + i" *ngFor="let item of done; let i = index" cdkDrag [cdkDragData]="item.piece" [ngStyle]="{'transform': 'rotate(' + item.rotation + 'deg)', 'margin': +item.margin+ 'px'}" [cdkDragDisabled]="true">
         <div class="top-number">
-          <ng-container *ngFor="let dot of [].constructor(item.piece[0])">
-            <div class="dot"></div>
+          <ng-container>
+            <img class="naipes" src="assets/naipe_{{ item.piece[0] }}.png"/>
           </ng-container>
         </div>
         <div class="divider" [ngClass]="{ 'rotate-left': item.orientation === 'left', 'rotate-right': item.orientation === 'right' }"></div>
         <div class="bottom-number">
-          <ng-container *ngFor="let dot of [].constructor(item.piece[1])">
-            <div class="dot"></div>
+          <ng-container>
+            <img class="naipes" src="assets/naipe_{{ item.piece[1] }}.png"/>
           </ng-container>
         </div>
       </div>
@@ -36,14 +36,14 @@
     <div cdkDropList [cdkDropListData]="player2" class="my-pieces" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[doneList]" cdkDropListOrientation="horizontal">
       <div class="domino-piece" *ngFor="let item of player2" cdkDrag [cdkDragData]="item.piece" (cdkDragStarted)="dragStarted($event)">
         <div class="top-number">
-          <ng-container *ngFor="let dot of [].constructor(item.piece[0])">
-            <div class="dot"></div>
+          <ng-container>
+            <img class="naipes" src="assets/naipe_{{ item.piece[0] }}.png" />
           </ng-container>
         </div>
         <div class="divider"></div>
         <div class="bottom-number">
-          <ng-container *ngFor="let dot of [].constructor(item.piece[1])">
-            <div class="dot"></div>
+          <ng-container>
+            <img class="naipes" src="assets/naipe_{{ item.piece[1] }}.png"/>
           </ng-container>
         </div>
       </div>
@@ -51,18 +51,22 @@
   </div>
   <!-- Placar -->
   <footer>
-    <div id="placar">
-      <div id="player1-score">
-        <h3>Máquina</h3>
-        <p>Pontos: {{ player1Score }}</p>
+    <div id="placar-container">
+      <div id="placar">
+        <div id="player1-score">
+          <h3>Máquina</h3>
+          <p>Pontos: {{ player1Score }}</p>
+        </div>
+        <h1>X</h1>
+        <div id="player2-score">
+          <h3>Humano</h3>
+          <p>Pontos: {{ player2Score }}</p>
+        </div>
       </div>
-      <h1>X</h1>
-      <div id="player2-score">
-        <h3>Humano</h3>
-        <p>Pontos: {{ player2Score }}</p>
-      </div>
+      <button class="buy-button-mobile" (click)="comprarPeca()">Comprar ({{ this.playAreaData.length }})</button>
     </div>
   </footer>
+  
   <!-- Modal de Mensagens -->
   <div id="modal" class="modal">
     <div class="modal-content">

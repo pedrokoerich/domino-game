@@ -92,6 +92,8 @@ export class AppComponent implements OnInit {
     const droppedLeftSide = droppedItem.piece[0];
     const droppedRightSide = droppedItem.piece[1];
 
+    const screenWidth = window.innerWidth;
+
     //se a mesa possuir peças
     if (targetPiece) {
       //AQUI SÃO VALIDAÇÃO DA EXTREMIDADE ESQUERDA
@@ -100,14 +102,18 @@ export class AppComponent implements OnInit {
         //se a peça da extremidade estiver rotacionada pra esquerda
         if (droppedLeftSide === droppedRightSide) {
           droppedItem.rotation = 0;
-          droppedItem.orientation = '';
-          droppedItem.margin = 4;
-        }else {
-          droppedItem.rotation = 90;
-          droppedItem.orientation = 'right';
-          droppedItem.margin = 15;
-        }
-        let index = 0;
+            droppedItem.orientation = '';
+            droppedItem.margin = 4;
+          } else {
+            droppedItem.rotation = 90;
+            droppedItem.orientation = 'right';
+            if (screenWidth <= 428) {
+              droppedItem.margin = 5;
+            } else {
+              droppedItem.margin = 23;
+            }
+          }
+          let index = 0;
         transferArrayItem(
           event.previousContainer.data, //mão do jogador
           event.container.data, //mesa
@@ -122,7 +128,11 @@ export class AppComponent implements OnInit {
         }else {
           droppedItem.rotation = -90;
           droppedItem.orientation = 'left';
-          droppedItem.margin = 15;
+          if (screenWidth <= 428) {
+            droppedItem.margin = 5;
+          } else {
+            droppedItem.margin = 23;
+          }
         }
         let index = 0;
         transferArrayItem(
@@ -139,7 +149,11 @@ export class AppComponent implements OnInit {
         }else {
           droppedItem.rotation = 90;
           droppedItem.orientation = 'right';
-          droppedItem.margin = 15;
+          if (screenWidth <= 428) {
+            droppedItem.margin = 5;
+          } else {
+            droppedItem.margin = 23;
+          }
         }
         let index = 0;
         transferArrayItem(
@@ -156,7 +170,11 @@ export class AppComponent implements OnInit {
         } else {
           droppedItem.rotation = -90;
           droppedItem.orientation = 'left';
-          droppedItem.margin = 15;
+          if (screenWidth <= 428) {
+            droppedItem.margin = 5;
+          } else {
+            droppedItem.margin = 23;
+          }
         }
         let index = 0;
         transferArrayItem(
@@ -174,7 +192,11 @@ export class AppComponent implements OnInit {
         }else {
           droppedItem.rotation = -90;
           droppedItem.orientation = 'left';
-          droppedItem.margin = 15;
+          if (screenWidth <= 428) {
+            droppedItem.margin = 5;
+          } else {
+            droppedItem.margin = 23;
+          }
         }
         let index = this.done.length;
         transferArrayItem(
@@ -191,7 +213,11 @@ export class AppComponent implements OnInit {
         }else {
           droppedItem.rotation = 90;
           droppedItem.orientation = 'right';
-          droppedItem.margin = 15;
+          if (screenWidth <= 428) {
+            droppedItem.margin = 5;
+          } else {
+            droppedItem.margin = 23;
+          }
         }
         let index = this.done.length;
         transferArrayItem(
@@ -208,7 +234,11 @@ export class AppComponent implements OnInit {
         }else {
           droppedItem.rotation = -90;
           droppedItem.orientation = 'left';
-          droppedItem.margin = 15;
+          if (screenWidth <= 428) {
+            droppedItem.margin = 5;
+          } else {
+            droppedItem.margin = 23;
+          }
         }
         let index = this.done.length;
         transferArrayItem(
@@ -225,7 +255,11 @@ export class AppComponent implements OnInit {
         }else {
           droppedItem.rotation = 90;
           droppedItem.orientation = 'right';
-          droppedItem.margin = 15;
+          if (screenWidth <= 428) {
+            droppedItem.margin = 5;
+          } else {
+            droppedItem.margin = 23;
+          }
         }
         let index = this.done.length;
         transferArrayItem(
@@ -244,7 +278,11 @@ export class AppComponent implements OnInit {
       if (droppedItem.piece[0] !== droppedItem.piece[1]) {
         droppedItem.rotation = -90; //Left
         droppedItem.orientation = 'left';
-        droppedItem.margin = 15;
+        if (screenWidth <= 428) {
+          droppedItem.margin = 6;
+        } else {
+          droppedItem.margin = 23;
+        }
       }else {
         droppedItem.rotation = 0;
         droppedItem.orientation = '';
@@ -370,6 +408,8 @@ export class AppComponent implements OnInit {
     let valorDisponivelLeft = 0;
     let valorDisponivelRight = 0;
 
+    const screenWidth = window.innerWidth;
+
     if (pieceFreeLeft && (pieceFreeLeft.orientation === 'left' || pieceFreeLeft.orientation === '')) {
       valorDisponivelLeft = pieceFreeLeft.piece[0];
     } else if (pieceFreeLeft && (pieceFreeLeft.orientation === 'right' || pieceFreeLeft.orientation === '')) {
@@ -396,7 +436,11 @@ export class AppComponent implements OnInit {
         }else {
           playablePiece.rotation = 90;
           playablePiece.orientation = 'right';
-          playablePiece.margin = 15;
+          if (screenWidth <= 428) {
+            playablePiece.margin = 5;
+          } else {
+            playablePiece.margin = 23;
+          }
         }
         index = 0;
         break; // Encontrou uma peça jogável, então pare de procurar
@@ -409,7 +453,11 @@ export class AppComponent implements OnInit {
         }else {
           playablePiece.rotation = -90;
           playablePiece.orientation = 'left';
-          playablePiece.margin = 15;
+          if (screenWidth <= 428) {
+            playablePiece.margin = 5;
+          } else {
+            playablePiece.margin = 23;
+          }
         }
         index = 0;
         break; // Encontrou uma peça jogável, então pare de procurar
@@ -422,7 +470,11 @@ export class AppComponent implements OnInit {
         }else {
           playablePiece.rotation = -90;
           playablePiece.orientation = 'left';
-          playablePiece.margin = 15;
+          if (screenWidth <= 428) {
+            playablePiece.margin = 5;
+          } else {
+            playablePiece.margin = 23;
+          }
         }
         index = this.done.length;
         break; // Encontrou uma peça jogável, então pare de procurar
@@ -435,7 +487,11 @@ export class AppComponent implements OnInit {
         }else {
           playablePiece.rotation = 90;
           playablePiece.orientation = 'right';
-          playablePiece.margin = 15;
+          if (screenWidth <= 428) {
+            playablePiece.margin = 5;
+          } else {
+            playablePiece.margin = 23;
+          }
         }
         index = this.done.length;
         break; // Encontrou uma peça jogável, então pare de procurar
@@ -456,7 +512,7 @@ export class AppComponent implements OnInit {
       // Se nenhuma peça jogável foi encontrada, imprima uma mensagem ou execute outras ações, se necessário
       const newPiece = this.playAreaData.pop();
       if (newPiece) {
-        this.player1.push({ piece: newPiece, rotation: 0, margin: 8, orientation: '' });
+        this.player1.push({ piece: newPiece, rotation: 0, margin: 4, orientation: '' });
         this.botPlay(); // Tente jogar novamente
       }
     }
