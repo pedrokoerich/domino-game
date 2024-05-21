@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   public lFim: boolean = false; // Verifica se o jogo acabou
   public player1Score: number = 0; // Pontuação do jogador 1
   public player2Score: number = 0; // Pontuação do jogador 2
+  public lOk: boolean = false; // Verifica se a peça foi jogada corretamente
 
   // Função para gerar todas as peças de dominó possíveis
   generateDominoPieces(): [number, number][] {
@@ -96,7 +97,7 @@ export class AppComponent implements OnInit {
 
     //se a mesa possuir peças
     if (targetPiece) {
-      //AQUI SÃO VALIDAÇÃO DA EXTREMIDADE ESQUERDA
+      //AQUI SÃO VALIDAÇÕES DA EXTREMIDADE ESQUERDA
       //se o lado de cima da peça jogada for igual ao lado de cima da peça que está na extremidade esquerda da mesa
       if ((pieceFreeLeft && pieceFreeRight) && (droppedLeftSide === pieceFreeLeft.piece[0]) && (pieceFreeLeft.orientation === 'left' || pieceFreeLeft.orientation === '')) {
         //se a peça da extremidade estiver rotacionada pra esquerda
@@ -108,7 +109,7 @@ export class AppComponent implements OnInit {
             droppedItem.rotation = 90;
             droppedItem.orientation = 'right';
             if (screenWidth <= 428) {
-              droppedItem.margin = 5;
+              droppedItem.margin = 12;
             } else {
               droppedItem.margin = 23;
             }
@@ -120,6 +121,7 @@ export class AppComponent implements OnInit {
           event.previousIndex, //indice origem 
           index //indice destino 
         );
+        this.lOk = true;
       }else if ((pieceFreeLeft && pieceFreeRight) && (droppedRightSide === pieceFreeLeft.piece[0]) && (pieceFreeLeft.orientation === 'left' || pieceFreeLeft.orientation === '')) {
         if (droppedLeftSide === droppedRightSide) {
           droppedItem.rotation = 0;
@@ -129,7 +131,7 @@ export class AppComponent implements OnInit {
           droppedItem.rotation = -90;
           droppedItem.orientation = 'left';
           if (screenWidth <= 428) {
-            droppedItem.margin = 5;
+            droppedItem.margin = 12;
           } else {
             droppedItem.margin = 23;
           }
@@ -141,6 +143,7 @@ export class AppComponent implements OnInit {
           event.previousIndex, //indice origem 
           index //indice destino 
         );
+        this.lOk = true;
       }else if  ((pieceFreeLeft && pieceFreeRight) && (droppedLeftSide === pieceFreeLeft.piece[1]) && (pieceFreeLeft.orientation === 'right' || pieceFreeLeft.orientation === '')) {
         if (droppedLeftSide === droppedRightSide) {
           droppedItem.rotation = 0;
@@ -150,7 +153,7 @@ export class AppComponent implements OnInit {
           droppedItem.rotation = 90;
           droppedItem.orientation = 'right';
           if (screenWidth <= 428) {
-            droppedItem.margin = 5;
+            droppedItem.margin = 12;
           } else {
             droppedItem.margin = 23;
           }
@@ -162,6 +165,7 @@ export class AppComponent implements OnInit {
           event.previousIndex, //indice origem 
           index //indice destino 
         );
+        this.lOk = true;
       }else if  ((pieceFreeLeft && pieceFreeRight) && (droppedRightSide === pieceFreeLeft.piece[1]) && (pieceFreeLeft.orientation === 'right' || pieceFreeLeft.orientation === '')) {
         if (droppedLeftSide === droppedRightSide) {
           droppedItem.rotation = 0;
@@ -171,7 +175,7 @@ export class AppComponent implements OnInit {
           droppedItem.rotation = -90;
           droppedItem.orientation = 'left';
           if (screenWidth <= 428) {
-            droppedItem.margin = 5;
+            droppedItem.margin = 12;
           } else {
             droppedItem.margin = 23;
           }
@@ -183,7 +187,8 @@ export class AppComponent implements OnInit {
           event.previousIndex, //indice origem 
           index //indice destino 
         );
-      //AQUI SÃO VALIDAÇÃO DA EXTREMIDADE DIREITA
+        this.lOk = true;
+      //AQUI SÃO VALIDAÇÕES DA EXTREMIDADE DIREITA
       }else if ((pieceFreeLeft && pieceFreeRight) && (droppedLeftSide === pieceFreeRight.piece[0]) && (pieceFreeRight.orientation === 'right' || pieceFreeRight.orientation === '')) {
         if (droppedLeftSide === droppedRightSide) {
           droppedItem.rotation = 0;
@@ -193,7 +198,7 @@ export class AppComponent implements OnInit {
           droppedItem.rotation = -90;
           droppedItem.orientation = 'left';
           if (screenWidth <= 428) {
-            droppedItem.margin = 5;
+            droppedItem.margin = 12;
           } else {
             droppedItem.margin = 23;
           }
@@ -205,6 +210,7 @@ export class AppComponent implements OnInit {
           event.previousIndex, //indice origem 
           index //indice destino 
         );
+        this.lOk = true;
       }else if ((pieceFreeLeft && pieceFreeRight) && (droppedRightSide === pieceFreeRight.piece[0]) && (pieceFreeRight.orientation === 'right' || pieceFreeRight.orientation === '')) {
         if (droppedLeftSide === droppedRightSide) {
           droppedItem.rotation = 0;
@@ -214,7 +220,7 @@ export class AppComponent implements OnInit {
           droppedItem.rotation = 90;
           droppedItem.orientation = 'right';
           if (screenWidth <= 428) {
-            droppedItem.margin = 5;
+            droppedItem.margin = 12;
           } else {
             droppedItem.margin = 23;
           }
@@ -226,6 +232,7 @@ export class AppComponent implements OnInit {
           event.previousIndex, //indice origem 
           index //indice destino 
         );
+        this.lOk = true;
       }else if ((pieceFreeLeft && pieceFreeRight) && (droppedLeftSide === pieceFreeRight.piece[1]) && (pieceFreeRight.orientation === 'left' || pieceFreeRight.orientation === '')) {
         if (droppedLeftSide === droppedRightSide) {
           droppedItem.rotation = 0;
@@ -235,7 +242,7 @@ export class AppComponent implements OnInit {
           droppedItem.rotation = -90;
           droppedItem.orientation = 'left';
           if (screenWidth <= 428) {
-            droppedItem.margin = 5;
+            droppedItem.margin = 12;
           } else {
             droppedItem.margin = 23;
           }
@@ -247,6 +254,7 @@ export class AppComponent implements OnInit {
           event.previousIndex, //indice origem 
           index //indice destino 
         );
+        this.lOk = true;
       }else if ((pieceFreeLeft && pieceFreeRight) && (droppedRightSide === pieceFreeRight.piece[1]) &&  (pieceFreeRight.orientation === 'left' || pieceFreeRight.orientation === '')) {
         if (droppedLeftSide === droppedRightSide) {
           droppedItem.rotation = 0;
@@ -256,7 +264,7 @@ export class AppComponent implements OnInit {
           droppedItem.rotation = 90;
           droppedItem.orientation = 'right';
           if (screenWidth <= 428) {
-            droppedItem.margin = 5;
+            droppedItem.margin = 12;
           } else {
             droppedItem.margin = 23;
           }
@@ -268,8 +276,10 @@ export class AppComponent implements OnInit {
           event.previousIndex, //indice origem 
           index //indice destino 
         );
+        this.lOk = true;
       }else {
         this.message = "Não é possível jogar esta peça nesta posição."
+        this.lOk = false;
         this.openModal();
       }
 
@@ -279,7 +289,7 @@ export class AppComponent implements OnInit {
         droppedItem.rotation = -90; //Left
         droppedItem.orientation = 'left';
         if (screenWidth <= 428) {
-          droppedItem.margin = 6;
+          droppedItem.margin = 12;
         } else {
           droppedItem.margin = 23;
         }
@@ -295,11 +305,14 @@ export class AppComponent implements OnInit {
         event.previousIndex,
         targetIndex
       );
+      if (this.done.length > 0) {
+        this.lOk = true;
+      }
     }
 
     //CHAMA A FUNÇÃO DO BOT
     this.validaGanhador();
-    if (!this.lFim) {
+    if (!this.lFim && this.lOk) {
       this.botPlay();
     }
   }
@@ -437,7 +450,7 @@ export class AppComponent implements OnInit {
           playablePiece.rotation = 90;
           playablePiece.orientation = 'right';
           if (screenWidth <= 428) {
-            playablePiece.margin = 5;
+            playablePiece.margin = 12;
           } else {
             playablePiece.margin = 23;
           }
@@ -454,7 +467,7 @@ export class AppComponent implements OnInit {
           playablePiece.rotation = -90;
           playablePiece.orientation = 'left';
           if (screenWidth <= 428) {
-            playablePiece.margin = 5;
+            playablePiece.margin = 12;
           } else {
             playablePiece.margin = 23;
           }
@@ -471,7 +484,7 @@ export class AppComponent implements OnInit {
           playablePiece.rotation = -90;
           playablePiece.orientation = 'left';
           if (screenWidth <= 428) {
-            playablePiece.margin = 5;
+            playablePiece.margin = 12;
           } else {
             playablePiece.margin = 23;
           }
@@ -488,7 +501,7 @@ export class AppComponent implements OnInit {
           playablePiece.rotation = 90;
           playablePiece.orientation = 'right';
           if (screenWidth <= 428) {
-            playablePiece.margin = 5;
+            playablePiece.margin = 12;
           } else {
             playablePiece.margin = 23;
           }
