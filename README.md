@@ -52,6 +52,11 @@ O Jogo de Dominó é uma aplicação desenvolvida para simular partidas de domin
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir problemas (issues) e enviar solicitações de alteração (pull requests) para melhorar o jogo.
 
+- **Build do Projeto:** Para manter o jogo disponivel via URL, faça o build do mesmo após suas contribuições 😉.
+```
+ng build --base-href "/domino-game/" 
+```
+
 ## Contato
 
 Se precisar de ajuda ou tiver alguma dúvida, não hesite em entrar em contato:
